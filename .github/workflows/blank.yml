@@ -54,7 +54,7 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd /root/realworld-nuxtjs
+          rm -rf release.tgz.blank
+          mv release.tgz release.tgz.blank
           wget https://github.com/zhuzhunv/vue-pc/releases/latest/download/release.tgz -O release.tgz
-          tar zxvf release.tgz
-          npm install --production
-          pm2 reload pm2.config.json
+          tar zxvf release.tgz 
