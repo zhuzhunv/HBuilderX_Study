@@ -1,36 +1,80 @@
-# This is a basic workflow to help you get started with Actions
+# 该workflow的名称，可以随意填写
+name: Build And Deploy To Github Pages
 
-name: CI
-
-# Controls when the action will run. 
+# workflow的触发事件，这里代表v*触发
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ v* ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# 任务
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  # build-and-deploy 为任务的ID
+  build-and-deploy:
+    # 运行所需要的环境
+    runs-on: ubuntu-latest 
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # 步骤名
+      - name: Checkout
+        # 使用的actions脚本，这里是官方提供的获取源码脚本
+        uses: actions/checkout@master
+        # 这个为使用 JamesIves/github-pages-deploy-action脚本所需要的配置
+        with:
+          persist-credentials: false
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # 执行npm脚本打包项目
+      - name: Build
+        uses: actions/setup-node@master
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          npm install
+          npm run build
+          tar -zcvf dist.tgz index static/
+      
+      - name: Create Release
+      id: create_release
+      uses: actions/create-release@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+      # 上传构建结果到 Release
+      - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist.tgz
+        asset_name: dist.tgz
+        asset_content_type: application/x-tgz
+
+       # 部署到服务器
+      - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /home/syt/web/test 
+          rm -rf dist.tgz.blank
+          mv dist.tgz dist.tgz.blank
+          wget https://github.com/zhuzhunv/vue-pc/releases/latest/download/dist.tgz -O dist.tgz
+          tar zxvf dist.tgz 
+
+      # # 执行JamesIves/github-pages-deploy-action将项目发布到Github Pages
+      # - name: Deploy
+      #   uses: JamesIves/github-pages-deploy-action@3.7.1
+      #   with:
+      #     # 该workflow需要操作repo，因此需要一个密钥，下面会讲到如何获取这个密钥
+      #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      #     # 发布到的分支
+      #     BRANCH: gh-pages
+      #     # 要发布的文件夹
+      #     FOLDER: dist
