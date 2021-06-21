@@ -41,8 +41,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release.tgz
-        asset_name: release.tgz
+        asset_path: ./release.zip
+        asset_name: release.zip
         asset_content_type: application/x-tgz
 
     # 部署到服务器
@@ -55,7 +55,7 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd /home/syt/web/test
-          rm -rf release.tgz.blank
-          mv release.tgz release.tgz.blank
-          wget https://github.com/zhuzhunv/vue-pc/releases/latest/download/release.tgz -O release.tgz
-          unzip release.tgz 
+          rm -rf release.zip.blank
+          mv release.zip release.zip.blank
+          wget https://github.com/zhuzhunv/vue-pc/releases/latest/download/release.zip -O release.zip
+          unzip release.zip 
