@@ -3,6 +3,6 @@ module.exports = {
   NODE_ENV: '"test"',
   ENV_CONFIG: '"test"',
   API_ROOT: '"/syt/api"',
-  ASSETS_PUBLICPATH: '/hw/',
-  BASE_ROUTE: '"hw"'
+  ASSETS_PUBLICPATH: '/test/',
+  BASE_ROUTE: '"test"'
 }
