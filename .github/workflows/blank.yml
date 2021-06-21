@@ -25,10 +25,9 @@ jobs:
       # 执行npm脚本打包项目
       - name: Build
         uses: actions/setup-node@master
-        run: |
-          npm install
-          npm run build
-          tar -zcvf dist.tgz index static/
+        run:  npm install
+        run:  npm run build
+        run:  tar -zcvf dist.tgz index static/
       
       - name: Create-Release
       id: create_release
