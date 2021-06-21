@@ -1,10 +1,10 @@
 # 该workflow的名称，可以随意填写
-name: Build And Deploy To Github Pages
-
+name: Publish And Deploy Demo
 # workflow的触发事件，这里代表v*触发
 on:
   push:
-    branches: [ v* ]
+    tags:
+      - 'v*'
 
 # 任务
 jobs:
