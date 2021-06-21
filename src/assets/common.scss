@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+$maincolor:#f1682e;
+// 基础色
+$colorfff:#fff;
+$color333:#333;
+$color666:#666;
+$color999:#999;
+$coloreee:#eee;
+$colore0:#e0e0e0;
+$color:#999;
+#app{ color: $color333;}
+
+
+
+.button25{ 
+    padding: 0 0.12rem;
+    height: .84rem;
+    line-height: .84rem;
+    font-size: 0.32rem;
+    color: $colorfff;
+    border-radius: .1rem;
+    background:$maincolor
+}
+/**************使用示例**************/
+// $color: red;
+// .scss {
+//     color: $color;
+//     &:hover {   //p:hover
+//         color: blue;
+//     }
+// } 
+// .class1 {
+//     border: 1px solid #333;
+// }
+// .class2 {
+//     @extend .class1;
+//     font-size: 18px; 
+// }
+// // 使用@mixin命令，定义一个代码块。mixin的强大之处，在于可以指定参数和缺省值。
+// @mixin left($value: 10px) {
+//     font-weight: 900;
+//     margin-left: $value;
+// } 
+// // 使用@include命令，调用这个mixin。使用的时候，根据需要加入参数
+// .mixin {
+//     @include left(20px);
+// }
+
+//媒体查询
+// @media screen and (max-width: 960px){
+//     body{
+//       background-color:#FF6699
+//     }
+// }
+
+// @media screen and (max-width: 768px){
+//     body{
+//       background-color:#00FF66;
+//     }
+// }
+
+// @media screen and (max-width: 550px){
+//     body{
+//       background-color:#6633FF;
+//     }
+// }
+
+// @media screen and (max-width: 320px){
+//     body{
+//       background-color:#FFFF00;
+//     }
+// } 
+
+
+
