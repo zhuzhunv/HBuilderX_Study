@@ -23,23 +23,23 @@ jobs:
           persist-credentials: false
 
       # 执行npm脚本打包项目
-      - name: Build
-        uses: actions/setup-node@master
-        run: |
-          npm install
-          npm run build
-          tar -zcvf dist.tgz index static/
+      # - name: Build
+      #   uses: actions/setup-node@master
+      #   run: |
+      #     npm install
+      #     npm run build
+      #     tar -zcvf dist.tgz index static/
       
-      - name: Create Release
-      id: create_release
-      uses: actions/create-release@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
+      # - name: Create Release
+      # id: create_release
+      # uses: actions/create-release@master
+      # env:
+      #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      # with:
+      #   tag_name: ${{ github.ref }}
+      #   release_name: Release ${{ github.ref }}
+      #   draft: false
+      #   prerelease: false
 
       # 上传构建结果到 Release
       - name: Upload Release Asset
