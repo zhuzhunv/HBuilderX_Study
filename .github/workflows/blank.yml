@@ -18,7 +18,8 @@ jobs:
       uses: actions/setup-node@master
     - run: npm install
     - run: npm run build
-    - run: tar -zcvf release.tgz index static
+    - run: zip -q -r release.zip index.html static/
+      # tar -zcvf release.tgz index static
 
     # 发布 Release
     - name: Create Release
@@ -57,4 +58,4 @@ jobs:
           rm -rf release.tgz.blank
           mv release.tgz release.tgz.blank
           wget https://github.com/zhuzhunv/vue-pc/releases/latest/download/release.tgz -O release.tgz
-          tar zxvf release.tgz 
+          unzip release.tgz 
