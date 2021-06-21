@@ -17,7 +17,7 @@ jobs:
     - name: Build
       uses: actions/setup-node@master
     - run: npm install
-    - run: npm run build
+    - run: npm run build:test
     - run: zip -q -r release.zip index.html static/
       # tar -zcvf release.tgz index static
 
